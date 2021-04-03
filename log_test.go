@@ -110,3 +110,25 @@ func TestInitTraceMode(t *testing.T) {
 		}
 	}
 }
+
+func TestInitTestLogs(t *testing.T) {
+	nameFile := "commonTestLog.log"
+	defer os.Remove(nameFile)
+
+	if err := Init(nameFile, CommonLog, true); err != nil {
+		t.Errorf("Init() error = %v", err)
+	}
+
+	Trace.Println(traceText)
+	Debug.Println(debugText)
+	Info.Println(infoText)
+	Warning.Println(warningText)
+	Error.Println(errorText)
+	Fatal.Println(fatalText)
+
+	file, err := os.Open(nameFile)
+	if err == nil {
+		file.Close()
+		t.Error("File was not expected to exist")
+	}
+}
