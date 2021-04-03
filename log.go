@@ -10,23 +10,33 @@ import (
 type levelLog int
 
 const (
+	// CommonLog mode. Normal logging mode. uses info, warning, error, fatal logs.
 	CommonLog levelLog = iota
+	// DebugLog mode. Usually only enabled when debugging. Very verbose logging.
 	DebugLog
+	// TraceLog mode. Designates finer-grained informational events than the Debug.
 	TraceLog
 )
 
 var (
-	Trace   *slog.Logger
-	Debug   *slog.Logger
-	Info    *slog.Logger
+	// Trace level. Designates finer-grained informational events than the Debug.
+	Trace *slog.Logger
+	// Debug level. Usually only enabled when debugging.
+	Debug *slog.Logger
+	// Info level. Records that inform about what is happening in the program.
+	Info *slog.Logger
+	// Warning level. Non-critical entries that deserve attention.
 	Warning *slog.Logger
-	Error   *slog.Logger
-	Fatal   *slog.Logger
+	// Error level. Logs. Used for errors that should definitely be noted.
+	Error *slog.Logger
+	// Fatal level, highest level of severity after it, you need to crash the program.
+	Fatal *slog.Logger
 )
 
-func Init(pathLog string, lvlLog levelLog, isTest bool) error{
+// Init Initializes the logs. Creates a log file with the specified logging level.
+func Init(pathLog string, lvlLog levelLog, isTest bool) error {
 	var err error
-	var file    *os.File
+	var file *os.File
 
 	writer := ioutil.Discard
 
